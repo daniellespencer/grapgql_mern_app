@@ -34,7 +34,7 @@ const ClientRow = ({ client }) => {
 }
 
 ClientRow.propTypes = {
-  client: PropTypes.any,
+  client: PropTypes.object,
 }
 
 export default ClientRow

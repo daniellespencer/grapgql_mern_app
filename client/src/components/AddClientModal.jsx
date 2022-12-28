@@ -4,7 +4,7 @@ import { useMutation } from "@apollo/client"
 import { ADD_CLIENT } from "../mutations/clientMutations"
 import { GET_CLIENTS } from "../queries/clientQueries"
 
-export const AddClientModal = () => {
+const AddClientModal = () => {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
@@ -112,3 +112,5 @@ export const AddClientModal = () => {
     </>
   )
 }
+
+export default AddClientModal
