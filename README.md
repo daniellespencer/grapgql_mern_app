@@ -1,4 +1,4 @@
-# graphql_mern_app
+# graphql mern app
 
 clone project and run npm i
 
