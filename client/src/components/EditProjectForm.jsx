@@ -1,34 +1,30 @@
 import React, { useState } from "react"
+import PropTypes from "prop-types"
 import { useMutation } from "@apollo/client"
 import { GET_PROJECT } from "../queries/projectQueries"
 import { UPDATE_PROJECT } from "../mutations/projectMutations"
+import DeleteProjectButton from "./DeleteProjectButton"
 
-// const ProjectStatusOptions = {Not_Started: "new", In_Progress: "progress", Completed: "completed"}
-const dsTest = {
+const statusOptions = {
   new: "Not Started",
   progress: "In Progress",
   completed: "Completed",
 }
 
-const EditProjectForm = ({ project }) => {
+const EditProjectForm = ({ project, showEditForm }) => {
   const [name, setName] = useState(project.name)
   const [description, setDescription] = useState(project.description)
-
-  //   console.log("project status", project?.status)
-  //   console.log(
-  //     "ds test",
-  //     Object.keys(dsTest).find((key) => dsTest[key] === project.status)
-  //   )
-  const statusDisplay = Object.keys(dsTest).find(
-    (key) => dsTest[key] === project.status
+  const statusDisplay = Object.keys(statusOptions).find(
+    (key) => statusOptions[key] === project.status
   )
   const [status, setStatus] = useState(statusDisplay)
-  // const [clientId, setClientId] = useState("")
 
-  const [updateProject] = useMutation(UPDATE_PROJECT, {
+  const [updateProject, { loading }] = useMutation(UPDATE_PROJECT, {
     variables: { id: project.id, name, description, status },
     refetchQueries: [{ query: GET_PROJECT, variables: { id: project.id } }],
   })
+
+  console.log("loading??", loading)
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -36,6 +32,7 @@ const EditProjectForm = ({ project }) => {
       return alert("Please fill out all fields")
     }
     updateProject(name, description, status)
+    showEditForm(false)
   }
 
   return (
@@ -76,12 +73,20 @@ const EditProjectForm = ({ project }) => {
             <option value='completed'>Completed</option>
           </select>
         </div>
-        <button type='submit' className='btn btn-primary'>
-          Submit
-        </button>
+        <div className='d-flex'>
+          <button disabled={loading} type='submit' className='btn btn-dark'>
+            Save Changes
+          </button>
+          <DeleteProjectButton projectId={project.id} />
+        </div>
       </form>
     </div>
   )
+}
+
+EditProjectForm.propTypes = {
+  project: PropTypes.object,
+  showEditForm: PropTypes.func,
 }
 
 export default EditProjectForm

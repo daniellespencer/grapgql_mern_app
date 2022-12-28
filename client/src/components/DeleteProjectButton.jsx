@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import { useNavigate } from "react-router-dom"
 import { FaTrash } from "react-icons/fa"
 import { GET_PROJECTS } from "../queries/projectQueries"
@@ -12,13 +13,20 @@ const DeleteProjectButton = ({ projectId }) => {
     refetchQueries: [{ query: GET_PROJECTS }],
   })
   return (
-    <div className='d-flex mt-5 ms-auto justify-content-center align-items-center'>
-      <button className='btn btn-danger m-2' onClick={deleteProject}>
+    <>
+      <button
+        className='btn btn-danger ms-3 d-flex justify-content-center align-items-center'
+        onClick={deleteProject}
+      >
         <FaTrash className='icon' />
-        Delete Project
+        <div>Delete Project</div>
       </button>
-    </div>
+    </>
   )
+}
+
+DeleteProjectButton.propTypes = {
+  projectId: PropTypes.string,
 }
 
 export default DeleteProjectButton
